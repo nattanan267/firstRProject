@@ -1,0 +1,227 @@
+---
+title: "Assignment 1"
+author: "Nattanan"
+date: "2024-09-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1 Create a data frame
+
+Step 1. Within RStudio, find the Console window. In the Console, write a command to create
+a vector called animals which contains the names of a few animals. What type of vector is this?
+Your vector might look something like this:\
+## [1] "Snake" "Ostrich" "Cat" "Spider"
+
+``` {r}
+animals <- c("Snake", "Ostrich", "Cat" , "Spider")
+animals
+mode(animals)
+```
+Step 2. Create a vector of the same length called num_legs which gives the number of legs of
+the different animals. Your second vector will look something like this:\
+## [1] 0 2 4 8
+
+``` {r}
+num_legs <- c(0, 2, 4, 8)
+num_legs
+```
+Step 3. Now combine these two vectors in a data frame called animals_df which has two
+columns - one with the names of animals, and another with their respective numbers of legs.
+The result should look something like this:\
+## animals num_legs\
+## 1 Snake 0\
+## 2 Ostrich 2\
+## 3 Cat 4\
+## 4 Spider 8\
+
+```{r}
+animals_df <- data.frame(animals, num_legs)
+animals_df
+```
+## 2 Check and delete objects
+Apart from creating objects, you can also check and delete them. In this question, you will also
+learn how to find help documents of R functions\
+\
+Step 1. After you finish creating the data frame required by Question 1, get a list of objects
+in the working environment.
+
+```{r}
+ls()
+```
+
+Step 2. Use the function rm (type ?rm to see examples of using rm) to remove the objects
+num legs from the working environment. After that, check the list of objects in the current
+environment again, to see if num legs has been removed.
+
+```{r}
+rm(num_legs)
+ls()
+```
+Step 3. Remove all objects in the working environment.
+```{r}
+rm(animals, animals_df)
+ls()
+```
+## 5 Matrix operations
+Use the seq() function to generate a sequence of numbers starting at 12 and decreasing to 2 in
+steps of -2. Call this vector x_vect. You may want to run ?seq or help(seq) to help you do
+this. The vector x_vect should look like this:\
+## [1] 12 10 8 6 4 2
+
+```{r}
+x_vect <- seq(12,2,-2)
+x_vect
+```
+Now convert the vector x_vect into a matrix (with 2 rows and 3 coloumns) called X, using
+the matrix() function. The result should look like this:\
+## [,1] [,2] [,3]\
+## [1,] 12 8 4\
+## [2,] 10 6 2\
+
+```{r}
+X <- matrix(x_vect, 2, 3)
+X
+```
+Next create a 2 by 2 matrix called Y consisting of a sequence of four numbers from 1-4. The
+matrix Y should look like this:\
+## [,1] [,2]\
+## [1,] 1 3\
+## [2,] 2 4\
+
+```{r}
+y_vect <- seq(1, 4)
+Y <- matrix(y_vect, 2, 2)
+Y
+```
+In addition, create another 2 by 2 matrix called Z which looks as follows:\
+## [,1] [,2]\
+## [1,] 4 8\
+## [2,] 6 10\
+
+```{r}
+z_vect <- seq(4, 10, 2)
+Z <- matrix(z_vect, 2, 2)
+Z
+```
+
+Use the t() function to compute Y^T^ and Z^T^
+
+```{r}
+t(Y)
+t(Z)
+```
+
+Matrix sums. Now compute the matrix sums Y + Z and Y + Z. The result in both cases
+should be the same. We call such operations commutative. This means that reversing the order
+does not change the result.
+```{r}
+Y + Z
+Z + Y
+```
+Matrix multiplication. Use R to compute the matrix products Y Z and ZY . Are the results
+the same in both cases? Is matrix multiplication commutative?
+```{r}
+Y*Z
+Z*Y
+```
+In addition, use R to compute the matrix product Y X. You should get something like this:\
+## [,1] [,2] [,3]\
+## [1,] 42 26 10\
+## [2,] 64 40 16\
+
+Matrix inverse. Compute the matrix inverse Y^−1^ via the solve() function:\
+solve(Y)\
+You should get something like this\
+## [,1] [,2]\
+## [1,] -2 1.5\
+## [2,] 1 -0.5\
+
+```{r}
+solve(Y)
+```
+
+Next, check what you get from computing Y^−1^Y in R.
+Now compute Y−1X. Your result should look like this:\
+## [,1] [,2] [,3]\
+## [1,] -9 -7 -5\
+## [2,] 7 5 3\
+
+## 6 Writing a function within R
+First, create an R script (see also Question 3), and saving it using the name mySecondRScript.
+To do the following steps, it is good to know how a function is defined in R as well as basic
+control flow statements in R (e.g., if...else..., and for). You may want to first look at the
+sample function called is prime (provided at the end of this question) for function definition
+and control flow statements, before you continue.\
+
+Step 1. Within your script create a short function called myFirstRFunc which takes in a single
+numerical argument n and outputs the sum of all those numbers strictly below n which are
+divisible by either 2 or 7 or both.\
+For example, if n = 14 then it should be the sum of 2, 4, 6, 7, 8, 10, 12, so myFirstRFunc
+applied to 14 gives the answer 2 + 4 + 6 + 7 + 8 + 10 + 12 = 49.
+Make sure your function includes useful comments. You may want to include a check so that
+your function produces an error if it is given an argument which isn’t a non-negative integer.
+
+```{r}
+myFirstRFunc <- function(x){
+  i <- 1
+  num <- c()
+  while(i < x){
+    if (i%%2 == 0 | i%%7 == 0){
+      num <- append(num, i)
+    }
+    i <- i+1
+  }
+  total <- sum(num)
+  print(total)
+}
+
+myFirstRFunc(14)
+```
+Step 2. Run the script by clicking on the “Source” button on the top right. Then check what
+you get if you apply the function to 1000, i.e.,
+myFirstRFunc(1000)
+If you have been successful your function should produce the following output.\
+## [1] 284787
+
+```{r}
+myFirstRFunc(1000)
+```
+
+## 7 Futher R Markdown exercises
+Step 1. Within your R markdown insert a section heading called “Wave plot”.
+
+### Wave plot
+
+Step 2. Insert a code block to do the following.
+• Define a vector called x consisting of a sequence which starts at 0 and goes to 20 in
+increments of 0.01. You can do this using the seq() function.
+• Next create a vector called y, which is of the same length as x, such that the i^th^ entry of
+y is equal to the sin function of the i^th^ entry of x. This can be done via the R function
+sin().
+• Then create a data frame called sin df with two columns: x and y. You can inspect the
+first few rows of your data frame with the head() function like this:
+head(sin_df,3)
+## x y
+## 1 0.00 0.000000000
+## 2 0.01 0.009999833
+## 3 0.02 0.019998667
+
+``` {r}
+ x <- seq(0, 20, 0.01)
+ y <- sin(x)
+ sin_df <- data.frame(x,y)
+ head(sin_df, 3)
+```
+
+```{r}
+plot(sin_df)
+```
+
+Step 3. Insert the following mathematical formula into your Markdown file:
+sin^2^(x) + cos^2^(x) = 1.
+
+## 8 Version control with RStudio and git
